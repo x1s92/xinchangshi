@@ -3,41 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的第一个网站</title>
+    <title>中西医智能诊疗平台 - 医院演示站</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-            background-color: #f0f0f0;
-            color: #333;
-        }
-        h1 {
-            color: #007bff;
-        }
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-        }
-        img {
-            max-width: 300px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap');
+        body { font-family: 'Noto Sans SC', system-ui, sans-serif; }
     </style>
 </head>
-<body>
-    <h1>欢迎来到我的第一个网站！</h1>
-    
-    <p>我是 [xsh]，这是一个我自己从零开始做的简单网页。</p>
-    
-    <p>目前我还在学习中，这个网站只用了一个 index.html 文件。</p>
-    
-    <!-- 如果你有照片，可以把下面这行前面的 <!-- 和 --> 删掉，然后把 "你的照片.jpg" 改成你的图片文件名 -->
-    <!-- <img src="你的照片.jpg" alt="我的照片"> -->
-    
-    <p>学长好！这是我的前端练习。</p>
-    
-    <p>技术栈：纯 HTML + CSS（样式写在 <style> 里面）</p>
+<body class="bg-gray-50">
+
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-hospital text-3xl text-emerald-600"></i>
+                <h1 class="text-2xl font-bold text-emerald-700">中西医智能诊疗平台</h1>
+            </div>
+            <div class="flex gap-8 text-lg">
+                <a href="#home" class="hover:text-emerald-600 font-medium">首页</a>
+                <a href="#price" class="hover:text-emerald-600 font-medium">药物价格对比</a>
+                <a href="#tcm" class="hover:text-emerald-600 font-medium">中医调理建议</a>
+                <a href="#about" class="hover:text-emerald-600 font-medium">关于我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页 Hero -->
+    <section id="home" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-4">智能中西医结合诊疗</h2>
+            <p class="text-xl mb-8">帮助医生快速对比药物价格 + 中医调理建议</p>
+            <div class="flex justify-center gap-4">
+                <button onclick="document.getElementById('price').scrollIntoView({behavior:'smooth'})" 
+                        class="bg-white text-emerald-700 px-8 py-4 rounded-2xl font-semibold text-lg hover:scale-105 transition">
+                    进入药物价格对比
+                </button>
+                <button onclick="document.getElementById('tcm').scrollIntoView({behavior:'smooth'})" 
+                        class="border-2 border-white px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-white hover:text-emerald-700 transition">
+                    中医调理建议
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 模块1：药物价格对比 -->
+    <section id="price" class="max-w-7xl mx-auto px-6 py-16">
+        <h2 class="text-3xl font-bold text-center mb-10">药物价格对比平台</h2>
+        <div class="mb-6">
+            <input id="searchInput" type="text" placeholder="搜索药物名称或适应症（如 发烧、感冒）..." 
+                   class="w-full max-w-xl mx-auto block px-6 py-4 rounded-3xl border focus:outline-none focus:border-emerald-500 text-lg"
+                   onkeyup="filterDrugs()">
+        </div>
+
+        <table class="w-full bg-white rounded-3xl shadow overflow-hidden">
+            <thead class="bg-emerald-600 text-white">
+                <tr>
+                    <th class="px-6 py-4 text-left">药物名称</th>
+                    <th class="px-6 py-4 text-left">适应症</th>
+                    <th class="px-6 py-4 text-center">医院价 (元)</th>
+                    <th class="px-6 py-4 text-center">替代方案</th>
+                    <th class="px-6 py-4 text-center">推荐指数</th>
+                </tr>
+            </thead>
+            <tbody id="drugTable" class="divide-y">
+                <!-- JS 会自动填充假数据 -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 模块2：中医调理建议 -->
+    <section id="tcm" class="bg-gray-100 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-10">中医调理建议</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 症状选择 -->
+                <div class="bg-white p-8 rounded-3xl shadow">
+                    <h3 class="text-xl font-semibold mb-6">请选择主要不适</h3>
+                    <div class="grid grid-cols-2 gap-3" id="symptomBtns">
+                        <!-- JS 填充按钮 -->
+                    </div>
+                </div>
+
+                <!-- 推荐结果 -->
+                <div class="col-span-2 bg-white p-8 rounded-3xl shadow">
+                    <h3 class="text-xl font-semibold mb-6">调理建议</h3>
+                    <div id="tcmResult" class="min-h-[300px]">
+                        <p class="text-gray-400 text-center py-20">选择左侧症状后，这里会出现推荐的中药调理方案</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们（来自你原来的项目） -->
+    <section id="about" class="max-w-7xl mx-auto px-6 py-16 bg-white">
+        <h2 class="text-3xl font-bold text-center mb-10">关于本平台</h2>
+        <p class="max-w-3xl mx-auto text-lg leading-relaxed text-gray-600 text-center">
+            本平台基于您原来的药方推荐项目开发，专注于中西医结合。<br>
+            目前为静态展示版（无数据库），后续将接入智能推荐模型、DRG控费看板、价格实时对比等功能。
+        </p>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-8 text-center">
+        <p>© 2026 中西医智能诊疗平台演示站 | 仅供展示使用</p>
+    </footer>
+
+    <script>
+        // Tailwind 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            return window.tailwind = window.tailwind || {};
+        });
+
+        // 药物假数据（模块1）
+        const drugs = [
+            { name: "布洛芬缓释胶囊", symptom: "发烧、头痛", price: 12.5, alternative: "对乙酰氨基酚", score: "★★★★☆" },
+            { name: "连花清瘟胶囊", symptom: "感冒、发热", price: 18.0, alternative: "银翘解毒片", score: "★★★★★" },
+            { name: "阿莫西林", symptom: "细菌感染", price: 8.5, alternative: "头孢克肟", score: "★★★☆☆" },
+            { name: "当归补血汤颗粒", symptom: "气血两虚", price: 25.0, alternative: "八珍颗粒", score: "★★★★☆" }
+        ];
+
+        function renderDrugs(filteredDrugs) {
+            const tbody = document.getElementById('drugTable');
+            tbody.innerHTML = filteredDrugs.map(d => `
+                <tr class="hover:bg-emerald-50 transition">
+                    <td class="px-6 py-4">${d.name}</td>
+                    <td class="px-6 py-4">${d.symptom}</td>
+                    <td class="px-6 py-4 text-center font-semibold">${d.price} 元</td>
+                    <td class="px-6 py-4 text-center text-emerald-600">${d.alternative}</td>
+                    <td class="px-6 py-4 text-center">${d.score}</td>
+                </tr>
+            `).join('');
+        }
+
+        function filterDrugs() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = drugs.filter(d => 
+                d.name.toLowerCase().includes(keyword) || d.symptom.toLowerCase().includes(keyword)
+            );
+            renderDrugs(filtered.length ? filtered : drugs);
+        }
+
+        // 中医症状假数据（模块2）
+        const symptoms = [
+            { text: "疲劳乏力", tcm: "建议：当归补血汤或八珍颗粒，每日2次。调理气血，改善乏力。", color: "emerald" },
+            { text: "失眠多梦", tcm: "建议：酸枣仁汤加减，睡前服用。安神养心。", color: "amber" },
+            { text: "消化不良", tcm: "建议：保和丸或香砂六君子汤。健脾和胃。", color: "teal" },
+            { text: "腰膝酸软", tcm: "建议：六味地黄丸。滋补肝肾。", color: "rose" }
+        ];
+
+        function renderSymptomBtns() {
+            const container = document.getElementById('symptomBtns');
+            container.innerHTML = symptoms.map((s, i) => `
+                <button onclick="showTCM(${i})" 
+                        class="bg-${s.color}-100 hover:bg-${s.color}-200 text-${s.color}-700 px-6 py-4 rounded-2xl text-left font-medium transition">
+                    ${s.text}
+                </button>
+            `).join('');
+        }
+
+        function showTCM(index) {
+            const result = document.getElementById('tcmResult');
+            result.innerHTML = `
+                <div class="p-8 bg-emerald-50 rounded-3xl">
+                    <h4 class="text-xl font-bold mb-3">推荐调理方案</h4>
+                    <p class="text-lg">${symptoms[index].tcm}</p>
+                    <p class="mt-6 text-sm text-gray-500">（数据来自项目多源异构数据体系，后续可接入真实模型）</p>
+                </div>
+            `;
+        }
+
+        // 初始化
+        window.onload = () => {
+            renderDrugs(drugs);
+            renderSymptomBtns();
+        };
+    </script>
 </body>
 </html>
